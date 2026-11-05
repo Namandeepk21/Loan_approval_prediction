@@ -1,6 +1,4 @@
-Create README.md and paste:
 
-markdown
 # Loan Approval Prediction
 
 Predicts whether a loan application should be approved based on applicant
