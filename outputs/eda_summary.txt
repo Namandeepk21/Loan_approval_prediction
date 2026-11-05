@@ -1,0 +1,44 @@
+Shape: (4270, 12)
+Missing values:
+no_of_dependents            0
+education                   0
+self_employed               0
+income_annum                0
+loan_amount                 0
+loan_term                   0
+cibil_score                 0
+residential_assets_value    0
+commercial_assets_value     0
+luxury_assets_value         0
+bank_asset_value            0
+loan_status                 0
+Duplicate rows: 0
+
+Descriptive statistics:
+                           count         mean         std       min         25%         50%         75%         max
+no_of_dependents          4270.0         2.50        1.70       0.0        1.00         3.0         4.0         5.0
+income_annum              4270.0   5058407.49  2806901.49  200000.0  2625000.00   5100000.0   7500000.0   9900000.0
+loan_amount               4270.0  15131311.48  9043383.94  300000.0  7700000.00  14500000.0  21500000.0  39500000.0
+loan_term                 4270.0        10.90        5.71       2.0        6.00        10.0        16.0        20.0
+cibil_score               4270.0       599.94      172.41     300.0      453.25       600.0       748.0       900.0
+residential_assets_value  4270.0   7470843.09  6503907.32 -100000.0  2200000.00   5600000.0  11300000.0  29100000.0
+commercial_assets_value   4270.0   4972693.21  4388555.89       0.0  1300000.00   3700000.0   7600000.0  19400000.0
+luxury_assets_value       4270.0  15124402.81  9103536.79  300000.0  7500000.00  14600000.0  21700000.0  39200000.0
+bank_asset_value          4270.0   4975995.32  3250123.86       0.0  2300000.00   4600000.0   7100000.0  14700000.0
+loan_status               4270.0         0.62        0.48       0.0        0.00         1.0         1.0         1.0
+
+Approval rate = 0.622, 95% CI = (0.608, 0.637)
+
+--- Statistical tests ---
+Chi-square education vs status: chi2=0.091, p=0.7630 -> no significant association
+Chi-square self_employed vs status: chi2=0.000, p=1.0000 -> no significant association
+Mann-Whitney U no_of_dependents: p=0.238 (median approved=3, rejected=3)
+Mann-Whitney U income_annum: p=0.3187 (median approved=5000000, rejected=5100000)
+Mann-Whitney U loan_amount: p=0.4205 (median approved=14600000, rejected=14500000)
+Mann-Whitney U loan_term: p=6.749e-14 (median approved=10, rejected=12)
+Mann-Whitney U cibil_score: p=0 (median approved=711, rejected=429)
+Mann-Whitney U residential_assets_value: p=0.2746 (median approved=5400000, rejected=5900000)
+Mann-Whitney U commercial_assets_value: p=0.5575 (median approved=3700000, rejected=3700000)
+Mann-Whitney U luxury_assets_value: p=0.2547 (median approved=14400000, rejected=14800000)
+Mann-Whitney U bank_asset_value: p=0.5073 (median approved=4500000, rejected=4600000)
+Welch t-test CIBIL: t=87.90, p=0, mean difference=274.0, 95% CI=(267.8, 280.1)
