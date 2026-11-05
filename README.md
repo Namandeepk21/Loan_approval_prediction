@@ -40,7 +40,20 @@ pip install -r requirements.txt
 ```
 
 ## Results
-To be added.
+
+## Exploratory Data Analysis
+- No missing values or duplicate rows. Approval rate is ~62% (95% CI ~60.8-63.7%),
+  so classes are mildly imbalanced and accuracy alone would be misleading.
+- CIBIL score is by far the strongest separator: approved applicants have a much
+  higher median score (Welch t-test p < 0.001).
+- Chi-square tests show no significant association between approval and
+  education or self-employment status (p > 0.05).
+- Mann-Whitney U tests (non-parametric, since the features are not normally
+  distributed) compare each numeric feature between approved and rejected loans.
+
+![CIBIL vs status](outputs/cibil_boxplot.png)
+![Correlation](outputs/correlation.png)
+
 
 ## Limitations
 To be added.
