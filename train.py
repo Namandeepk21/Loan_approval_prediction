@@ -77,3 +77,24 @@ baseline = make_pipe(DummyClassifier(strategy="most_frequent")).fit(X_tr, y_tr)
 rows = [{"model": "Baseline (majority class)", "cv_f1": np.nan, **test_metrics(baseline)}]
 fitted = {"Baseline (majority class)": baseline}
 print("Baseline:", {k: round(v, 3) for k, v in test_metrics(baseline).items()})
+for name, (clf, grid) in models.items():
+    print(f"Tuning {name} ...")
+    gs = GridSearchCV(make_pipe(clf), grid, scoring="f1", cv=cv, n_jobs=1)
+    gs.fit(X_tr, y_tr)
+    fitted[name] = gs.best_estimator_
+    rows.append({"model": name, "cv_f1": gs.best_score_,
+                 "best_params": str(gs.best_params_),
+                 **test_metrics(gs.best_estimator_)})
+
+results = pd.DataFrame(rows).round(4)
+results.to_csv("outputs/model_results.csv", index=False)
+print("\n", results.drop(columns="best_params").to_string(index=False))
+
+# The final model is chosen by CROSS-VALIDATED F1, never by test score
+best_name = (results.dropna(subset=["cv_f1"])
+             .sort_values("cv_f1", ascending=False).iloc[0]["model"])
+print("\nSelected model:", best_name)
+
+joblib.dump(fitted[best_name], "models/best_model.joblib")
+with open("outputs/best_model.json", "w") as f:
+    json.dump({"best_model": best_name}, f)
