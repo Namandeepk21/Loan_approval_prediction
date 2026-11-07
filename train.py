@@ -40,3 +40,61 @@ def make_pipe(clf):
 
 
 print("Train:", X_tr.shape, "Test:", X_te.shape)
+def test_metrics(pipe):
+    pred = pipe.predict(X_te)
+    proba = pipe.predict_proba(X_te)[:, 1]
+    return {
+        "accuracy": accuracy_score(y_te, pred),
+        "precision": precision_score(y_te, pred, zero_division=0),
+        "recall": recall_score(y_te, pred),
+        "f1": f1_score(y_te, pred),
+        "roc_auc": roc_auc_score(y_te, proba),
+    }
+
+
+# Each model comes with the hyperparameters we will tune
+models = {
+    "Logistic Regression": (
+        LogisticRegression(max_iter=2000, random_state=SEED),
+        {"model__C": [0.01, 0.1, 1, 10]},
+    ),
+    "Random Forest": (
+        RandomForestClassifier(random_state=SEED),
+        {"model__n_estimators": [100, 300],
+         "model__max_depth": [None, 5, 10],
+         "model__min_samples_leaf": [1, 3]},
+    ),
+    "Gradient Boosting": (
+        GradientBoostingClassifier(random_state=SEED),
+        {"model__n_estimators": [100, 200],
+         "model__learning_rate": [0.05, 0.1],
+         "model__max_depth": [2, 3]},
+    ),
+}
+
+# Baseline: always predict the majority class
+baseline = make_pipe(DummyClassifier(strategy="most_frequent")).fit(X_tr, y_tr)
+rows = [{"model": "Baseline (majority class)", "cv_f1": np.nan, **test_metrics(baseline)}]
+fitted = {"Baseline (majority class)": baseline}
+print("Baseline:", {k: round(v, 3) for k, v in test_metrics(baseline).items()})
+for name, (clf, grid) in models.items():
+    print(f"Tuning {name} ...")
+    gs = GridSearchCV(make_pipe(clf), grid, scoring="f1", cv=cv, n_jobs=1)
+    gs.fit(X_tr, y_tr)
+    fitted[name] = gs.best_estimator_
+    rows.append({"model": name, "cv_f1": gs.best_score_,
+                 "best_params": str(gs.best_params_),
+                 **test_metrics(gs.best_estimator_)})
+
+results = pd.DataFrame(rows).round(4)
+results.to_csv("outputs/model_results.csv", index=False)
+print("\n", results.drop(columns="best_params").to_string(index=False))
+
+# The final model is chosen by CROSS-VALIDATED F1, never by test score
+best_name = (results.dropna(subset=["cv_f1"])
+             .sort_values("cv_f1", ascending=False).iloc[0]["model"])
+print("\nSelected model:", best_name)
+
+joblib.dump(fitted[best_name], "models/best_model.joblib")
+with open("outputs/best_model.json", "w") as f:
+    json.dump({"best_model": best_name}, f)

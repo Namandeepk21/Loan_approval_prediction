@@ -38,6 +38,17 @@ pip install -r requirements.txt
 ```
 
 ## Results
+Held-out test set (20%, stratified). Models tuned with 5-fold CV on the training set;
+final model chosen by cross-validated F1, not test score.
+
+| Model | CV F1 | Precision | Recall | F1 | ROC-AUC |
+|---|---|---|---|---|---|
+| Baseline (majority class) | n/a | 0.622 | 1.000 | 0.767 | 0.500 |
+| Logistic Regression | 0.931 | 0.920 | 0.932 | 0.926 | 0.972 |
+| Random Forest | 0.997 | 0.993 | 1.000 | 0.996 | 0.9995 |
+| Gradient Boosting | 0.997 | 0.993 | 1.000 | 0.996 | 0.998 |
+
+Random Forest and Gradient Boosting are statistically equivalent on CV F1.
 
 ## Exploratory Data Analysis
 - No missing values or duplicate rows. Approval rate is ~62% (95% CI ~60.8-63.7%),
