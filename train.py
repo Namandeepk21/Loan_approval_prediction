@@ -40,3 +40,40 @@ def make_pipe(clf):
 
 
 print("Train:", X_tr.shape, "Test:", X_te.shape)
+def test_metrics(pipe):
+    pred = pipe.predict(X_te)
+    proba = pipe.predict_proba(X_te)[:, 1]
+    return {
+        "accuracy": accuracy_score(y_te, pred),
+        "precision": precision_score(y_te, pred, zero_division=0),
+        "recall": recall_score(y_te, pred),
+        "f1": f1_score(y_te, pred),
+        "roc_auc": roc_auc_score(y_te, proba),
+    }
+
+
+# Each model comes with the hyperparameters we will tune
+models = {
+    "Logistic Regression": (
+        LogisticRegression(max_iter=2000, random_state=SEED),
+        {"model__C": [0.01, 0.1, 1, 10]},
+    ),
+    "Random Forest": (
+        RandomForestClassifier(random_state=SEED),
+        {"model__n_estimators": [100, 300],
+         "model__max_depth": [None, 5, 10],
+         "model__min_samples_leaf": [1, 3]},
+    ),
+    "Gradient Boosting": (
+        GradientBoostingClassifier(random_state=SEED),
+        {"model__n_estimators": [100, 200],
+         "model__learning_rate": [0.05, 0.1],
+         "model__max_depth": [2, 3]},
+    ),
+}
+
+# Baseline: always predict the majority class
+baseline = make_pipe(DummyClassifier(strategy="most_frequent")).fit(X_tr, y_tr)
+rows = [{"model": "Baseline (majority class)", "cv_f1": np.nan, **test_metrics(baseline)}]
+fitted = {"Baseline (majority class)": baseline}
+print("Baseline:", {k: round(v, 3) for k, v in test_metrics(baseline).items()})
