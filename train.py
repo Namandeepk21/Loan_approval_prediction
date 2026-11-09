@@ -98,3 +98,25 @@ print("\nSelected model:", best_name)
 joblib.dump(fitted[best_name], "models/best_model.joblib")
 with open("outputs/best_model.json", "w") as f:
     json.dump({"best_model": best_name}, f)
+# ---------- Evaluation plots ----------
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay
+
+best = fitted[best_name]
+
+fig, ax = plt.subplots(figsize=(6, 5))
+for name, model in fitted.items():
+    RocCurveDisplay.from_estimator(model, X_te, y_te, ax=ax, name=name)
+ax.set_title("ROC curves (test set)")
+plt.tight_layout()
+plt.savefig("outputs/roc_curves.png", dpi=150)
+plt.close()
+
+ConfusionMatrixDisplay.from_estimator(
+    best, X_te, y_te, display_labels=["Rejected", "Approved"], cmap="Blues")
+plt.title(f"Confusion matrix - {best_name}")
+plt.tight_layout()
+plt.savefig("outputs/confusion_matrix.png", dpi=150)
+plt.close()
