@@ -120,3 +120,14 @@ plt.title(f"Confusion matrix - {best_name}")
 plt.tight_layout()
 plt.savefig("outputs/confusion_matrix.png", dpi=150)
 plt.close()
+# ---------- Interpretation: permutation importance ----------
+from sklearn.inspection import permutation_importance
+
+imp = permutation_importance(best, X_te, y_te, scoring="roc_auc",
+                             n_repeats=10, random_state=SEED)
+imp_s = pd.Series(imp.importances_mean, index=X.columns).sort_values()
+imp_s.plot.barh(figsize=(7, 5), title="Permutation importance (drop in ROC-AUC)")
+plt.tight_layout()
+plt.savefig("outputs/feature_importance.png", dpi=150)
+plt.close()
+print("\nTop features:\n", imp_s.sort_values(ascending=False).head(5).round(4).to_string())
