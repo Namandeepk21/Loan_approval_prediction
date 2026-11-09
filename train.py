@@ -120,27 +120,3 @@ plt.title(f"Confusion matrix - {best_name}")
 plt.tight_layout()
 plt.savefig("outputs/confusion_matrix.png", dpi=150)
 plt.close()
-# ---------- Interpretation: permutation importance ----------
-from sklearn.inspection import permutation_importance
-
-imp = permutation_importance(best, X_te, y_te, scoring="roc_auc",
-                             n_repeats=10, random_state=SEED)
-imp_s = pd.Series(imp.importances_mean, index=X.columns).sort_values()
-imp_s.plot.barh(figsize=(7, 5), title="Permutation importance (drop in ROC-AUC)")
-plt.tight_layout()
-plt.savefig("outputs/feature_importance.png", dpi=150)
-plt.close()
-print("\nTop features:\n", imp_s.sort_values(ascending=False).head(5).round(4).to_string())
-# ---------- Are the top two models significantly different? ----------
-from scipy import stats
-from sklearn.model_selection import cross_val_score
-
-rf_auc = cross_val_score(fitted["Random Forest"], X_tr, y_tr, cv=cv, scoring="roc_auc")
-gb_auc = cross_val_score(fitted["Gradient Boosting"], X_tr, y_tr, cv=cv, scoring="roc_auc")
-print("\nCV ROC-AUC  RF:", rf_auc.round(4), " GB:", gb_auc.round(4))
-if np.allclose(rf_auc, gb_auc):
-    print("Paired t-test: the two models have identical fold scores")
-else:
-    t, p = stats.ttest_rel(rf_auc, gb_auc)
-    verdict = "significant difference" if p < 0.05 else "no significant difference"
-    print(f"Paired t-test RF vs GB: t={t:.3f}, p={p:.4f} -> {verdict}")
