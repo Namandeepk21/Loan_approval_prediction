@@ -144,3 +144,6 @@ else:
     t, p = stats.ttest_rel(rf_auc, gb_auc)
     verdict = "significant difference" if p < 0.05 else "no significant difference"
     print(f"Paired t-test RF vs GB: t={t:.3f}, p={p:.4f} -> {verdict}")
+# ---------- Save every model so the app can compare them ----------
+joblib.dump(fitted, "models/all_models.joblib", compress=3)
+    print(f"Paired t-test RF vs GB: t={t:.3f}, p={p:.4f} -> {verdict}")
