@@ -20,7 +20,7 @@ project builds and compares ML classifiers that predict approval
 
 ## Dataset
 Loan Approval Prediction Dataset (Kaggle, uploaded by Archit Sharma).
-4,269 applications, 12 features + target (`loan_status`).
+4,269 applications, 12 features + target ("loan_status").
 File: `data/loan_approval_dataset.csv`
 
 ## Project Structure
