@@ -49,6 +49,13 @@ final model chosen by cross-validated F1, not test score.
 | Gradient Boosting | 0.997 | 0.993 | 1.000 | 0.996 | 0.998 |
 
 Random Forest and Gradient Boosting are statistically equivalent on CV F1.
+![ROC curves](outputs/roc_curves.png)
+![Confusion matrix](outputs/confusion_matrix.png)
+![Feature importance](outputs/feature_importance.png)
+
+**Interpretation:** CIBIL score dominates the permutation importance. Random Forest
+and Gradient Boosting are not significantly different (paired t-test on 5-fold
+CV ROC-AUC), so Random Forest was kept as the final model.
 
 ## Exploratory Data Analysis
 - No missing values or duplicate rows. Approval rate is ~62% (95% CI ~60.8-63.7%),
