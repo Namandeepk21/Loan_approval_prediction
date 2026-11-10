@@ -64,5 +64,13 @@ Random Forest and Gradient Boosting are statistically equivalent on CV F1.
 ![Correlation](outputs/correlation.png)
 
 
+Random Forest and Gradient Boosting are statistically equivalent on CV F1.
+![ROC curves](outputs/roc_curves.png)
+![Confusion matrix](outputs/confusion_matrix.png)
+![Feature importance](outputs/feature_importance.png)
+
+**Interpretation:** CIBIL score dominates the permutation importance. Random Forest
+and Gradient Boosting are not significantly different (paired t-test on 5-fold
+CV ROC-AUC), so Random Forest was kept as the final model.
 ## Limitations
 To be added.
