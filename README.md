@@ -73,4 +73,24 @@ Random Forest and Gradient Boosting are statistically equivalent on CV F1.
 and Gradient Boosting are not significantly different (paired t-test on 5-fold
 CV ROC-AUC), so Random Forest was kept as the final model.
 ## Limitations
-To be added.
+Although the models achieved very good results, there are some limitations in this project that should be considered.
+
+Limited Dataset Size: The dataset contains around 4,270 records. Although it was sufficient for this project, a larger dataset could help the models learn from a wider variety of loan applications and applicant situations.
+
+Use of a Single Dataset: The project is based on one publicly available dataset. Different banks may follow different loan approval policies and may collect different types of applicant information. Therefore, the model's performance may change when it is tested on data from other banks.
+
+Very High Model Performance: Random Forest and Gradient Boosting achieved accuracy of approximately 99.5%. Such high performance should be interpreted carefully because the dataset may be unusually clean or may contain patterns that make prediction easier than it would be in real-world banking situations.
+
+Strong Influence of CIBIL Score: CIBIL score has a very strong relationship with the loan approval status in this dataset. This may make the prediction task easier for the models. However, actual loan approval decisions may depend on several other financial and personal factors as well.
+
+Limited Financial Information: The dataset does not provide detailed repayment history, previous loan defaults, monthly expenses or complete credit-bureau information. These details could be useful for understanding an applicant's financial condition more accurately.
+
+Limited Fairness Analysis: No detailed fairness or bias analysis was performed during this project. Machine-learning models should be checked to ensure that their predictions do not unfairly affect applicants belonging to different groups.
+
+Dependence on Dataset Quality: The predictions depend on the quality and accuracy of the information entered by the user. If incorrect, incomplete or unrealistic values are provided, the model may produce unreliable predictions.
+
+Model Generalisation: The models were evaluated using a train-test split from the same dataset. Their performance on completely different datasets or future loan applications has not yet been tested.
+
+Educational Purpose: The Streamlit application has been developed mainly for learning and demonstration purposes. It should not be used to make actual loan approval or rejection decisions because real banking decisions require additional checks, policies and human review.
+
+Limited Explainability: Although feature importance was used to understand the overall contribution of different features, the project does not yet provide a detailed explanation for every individual prediction.
