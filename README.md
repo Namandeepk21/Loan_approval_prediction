@@ -2,7 +2,7 @@
 
 Predicts whether a loan application should be approved based on applicant
 details and financial information, using machine learning, with a Streamlit
-app for live predictions
+app for live predictions,
 
 ## Problem Statement
 Banks must decide quickly and consistently whether to approve a loan. This
