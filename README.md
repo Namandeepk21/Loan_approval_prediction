@@ -7,7 +7,7 @@ app for live predictions
 
 ## Problem Statement
 Banks must decide quickly and consistently whether to approve a loan. This
-project builds and compares ML classifiers that predict approval
+project builds and compares ML classifiers that predict approval.
 (Approved / Rejected) from applicant and financial features.
 
 ## Objectives
